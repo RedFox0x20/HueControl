@@ -1,0 +1,32 @@
+#!/bin/bash
+clear
+echo "Hue config"
+[[ -d ~/.HueControl ]] && echo "Configuration directory already exists! Only continue if you wish to generate a new configuration! CTRL+C to exit!"
+
+echo -n "Hue Bridge address: "
+read; Address="${REPLY}"
+
+echo
+echo "Generating username"
+response=$(curl -s -XPOST --url ${Address}/api --data "{\"devicetype\":\"HueLinuxRF $(whoami)@$(hostname)\"}")
+
+error=$(echo "$response" | jq .[0].error.type)
+[[ "$error" != "null" ]] && echo "Error! Ensure that you have pressed the connect button on the top of your hue unit!" && exit 1
+
+Username=$(echo "$response" | jq .[0].success.username)
+
+echo
+echo "Writing config!"
+mkdir ~/.HueControl > /dev/null
+echo "Username: $Username"
+echo "$Username" > ~/.HueControl/username
+echo "Address: $Address"
+echo "$Address" > ~/.HueControl/address
+
+echo
+echo "Configuration complete!"
+echo "Try testing your device with the following command:"
+echo "hueBlink"
+echo
+
+exit 0

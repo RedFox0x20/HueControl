@@ -1,0 +1,8 @@
+#!/bin/bash
+[[ ! -d ~/.HueControl ]] && echo "Setup not found! Please run: hueConfig" && exit 1
+[[ "$1" -eq "" ]] && echo "No ID Provided. Expected: hueBrightness <id> <brightness>" && exit 1
+[[ "$2" -eq "" ]] && echo "No brightness value provided! Expected hueBrightness <id> <brightness>" && exit 1
+echo "Turning light $1 on with brightness $2"
+curl -s -XPUT $(cat ~/.HueControl/address)/api/$(cat ~/.HueControl/username)/lights/$1/state --data "{\"on\":true, \"bri\":$2}" > /dev/null
+
+exit 0

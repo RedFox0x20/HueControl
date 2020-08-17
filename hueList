@@ -1,0 +1,8 @@
+#!/bin/bash
+[[ ! -d ~/.HueControl ]] && echo "Setup not found! Please run: hueConfig" && exit 1
+echo "Getting a list of bulbs"
+Bulbs=$(curl -s -XGET $(cat ~/.HueControl/address)/api/$(cat ~/.HueControl/username)/lights)
+echo $Bulbs | jq 'keys[] as $k | { ID: $k, Name: .[$k].name }'
+
+exit 0
+

@@ -1,0 +1,7 @@
+#!/bin/bash
+[[ ! -d ~/.HueControl ]] && echo "Setup not found! Please run: hueConfig" && exit 1
+[[ "$1" -eq "" ]] && echo "No ID Provided. Expected: hueBlink <id>" && exit 1
+echo "Turning light $1 off"
+curl -s -XPUT $(cat ~/.HueControl/address)/api/$(cat ~/.HueControl/username)/lights/$1/state --data '{"on":false}' > /dev/null
+
+exit 0

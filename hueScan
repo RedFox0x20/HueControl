@@ -1,5 +1,5 @@
 #!/bin/bash
-[[ ! -d ~/.HueControl ]] && echo "Setup not found! Please run: hueConfig" && exit 1
+[[ ! -d ~/.HueControl ]] && echo "Setup not found! Please run: hueSetup" && exit 1
 echo "Scanning for new lights, this process lasts for 40 seconds. Setting up lights may take longer than this so repeat the process until all lights are found."
 curl -s -XPOST $(cat ~/.HueControl/address)/api/$(cat ~/.HueControl/username)/lights > /dev/null
 

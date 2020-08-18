@@ -1,5 +1,5 @@
 #!/bin/bash
-[[ ! -d ~/.HueControl ]] && echo "Setup not found! Please run: hueConfig" && exit 1
+[[ ! -d ~/.HueControl ]] && echo "Setup not found! Please run: hueSetup" && exit 1
 [[ "$1" -eq "" ]] && echo "No ID Provided. Expected: hueDelete <id>" && exit 1
 echo "Deleting light $1"
 curl -s -XDELETE $(cat ~/.HueControl/address)/api/$(cat ~/.HueControl/username)/lights/$1 --data '{"on":true}' > /dev/null

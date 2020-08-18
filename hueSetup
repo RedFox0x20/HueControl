@@ -1,17 +1,26 @@
 #!/bin/bash
 clear
-echo "Hue config"
+echo "Hue setup"
+echo "To manually define the address (for connections without internet access) use: hueSetup -m"
 [[ -d ~/.HueControl ]] && echo "Configuration directory already exists! Only continue if you wish to generate a new configuration! CTRL+C to exit!"
 
-echo -n "Hue Bridge address: "
-read; Address="${REPLY}"
+echo
+if (( "$1" -eq "-m" )); then
+	echo -n "Hue Bridge address: "
+	read; Address="${REPLY}"
+else
+	echo "Getting Hue Bridge address from the broker server!"
+	Address=$(curl -s -XGET https://discovery.meethue.com/ | jq .[0].internalipaddress)
+	[[ "$Address" -eq "null" ]] && echo "Failed to contact broker server. Ensure that you and your Hue Bridge are connected to the internet!" && exit 1
+	echo "Detected address: $Address"
+fi
 
 echo
 echo "Generating username"
 response=$(curl -s -XPOST --url ${Address}/api --data "{\"devicetype\":\"HueLinuxRF $(whoami)@$(hostname)\"}")
 
 error=$(echo "$response" | jq .[0].error.type)
-[[ "$error" != "null" ]] && echo "Error! Ensure that you have pressed the connect button on the top of your hue unit!" && exit 1
+[[ "$error" != "null" ]] && echo "Error! Ensure that you have pressed the connect button on the top of your Hue Bridge unit!" && exit 1
 
 Username=$(echo "$response" | jq .[0].success.username)
 

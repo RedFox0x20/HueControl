@@ -2,6 +2,6 @@
 [[ ! -d ~/.HueControl ]] && echo "Setup not found! Please run: hueSetup" && exit 1
 [[ "$1" -eq "" ]] && echo "No ID Provided. Expected: hueBlink <id>" && exit 1
 echo "Blinking light $1 15 times"
-curl -s -XPUT $(cat ~/.HueControl/address)/api/$(cat ~/.HueControl/username)/lights/$1/state --data '{"alert":"lselect"}' > /dev/null
+curl -s -XPUT $(cat ~/.HueControl/address)/api/$(cat ~/.HueControl/username)/lights/$1/state --data '{"alert":"select"}' > /dev/null
 
 exit 0

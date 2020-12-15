@@ -1,7 +1,6 @@
 # HueControl
-HueControl is a generic control platform for controlliung Philips Hue devices.
-Control your devices through:
-- BASH TUI (Lights)
+## Archived
+HueControl is a generic control platform for controlliung Philips Hue devices from a BASH shell.
 
 ## Bash scripts
 Scripts follow the following formats:
